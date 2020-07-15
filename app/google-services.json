@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "664672871022",
+    "firebase_url": "https://sparrow-74e73.firebaseio.com",
+    "project_id": "sparrow-74e73",
+    "storage_bucket": "sparrow-74e73.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:664672871022:android:cb4bcc7f5e98998611bc7f",
+        "android_client_info": {
+          "package_name": "com.smile.atozadmin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "664672871022-p1hcu4138acbt6aubr0mdouc72jr0a2o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.smile.atozadmin",
+            "certificate_hash": "4385c76289657dd4a66cc9f8a65eb6d7883b6165"
+          }
+        },
+        {
+          "client_id": "664672871022-mduv4hastoukd0n5r2s0bvdl1o5ps684.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCK594lEn2kiD2peFgm124CO82DvKEY_M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "664672871022-mduv4hastoukd0n5r2s0bvdl1o5ps684.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

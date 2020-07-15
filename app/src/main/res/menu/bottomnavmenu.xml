@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/home_icon"
+        android:title="Home"/>
+    <item
+        android:id="@+id/nav_drees"
+        android:icon="@drawable/dress_icon"
+        android:title="Dress"/>
+    <item
+        android:id="@+id/nav_market"
+        android:icon="@drawable/vegicon1"
+        android:title="Veg and Market's"/>
+
+    <item
+        android:id="@+id/nav_offer"
+        android:icon="@drawable/offer_icon"
+        android:title="Offer"/>
+
+    <item
+        android:id="@+id/nav_Employees"
+        android:icon="@drawable/employeeicon"
+        android:title="Employees"/>
+
+</menu>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:icon="@drawable/locations_icon"
+        android:title="My Location"
+        android:id="@+id/menu_location"/>
+
+    <item
+        android:icon="@drawable/notification_icon"
+        app:showAsAction="always"
+        android:title="Notification"
+        android:id="@+id/menu_notification"/>
+
+    <item
+        android:icon="@drawable/order_icon"
+        app:showAsAction="always"
+        android:id="@+id/menu_myorders"
+        android:title="My Orders" />
+
+    <item
+        android:icon="@drawable/logout_icon"
+        app:showAsAction="always"
+        android:id="@+id/menu_exit"
+        android:title="Exit" />
+
+</menu>
