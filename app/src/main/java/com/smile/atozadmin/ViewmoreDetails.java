@@ -24,12 +24,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.smile.atozadmin.controller.AppUtill;
 import com.smile.atozadmin.parameters.AddressParameters;
+import com.smile.atozadmin.parameters.BillingParameters;
+import com.smile.atozadmin.parameters.DeliveryParameters;
 import com.smile.atozadmin.parameters.EmployeParameters;
-import com.smile.atozadmin.parameters.OrderParameters;
+import com.smile.atozadmin.parameters.OrderPatameters;
 
 public class ViewmoreDetails extends FragmentActivity implements OnMapReadyCallback {
 
@@ -62,16 +63,10 @@ public class ViewmoreDetails extends FragmentActivity implements OnMapReadyCallb
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
-                    OrderParameters o = dataSnapshot.getValue(OrderParameters.class);
-                    amount.setText(o.getBam());
+                    OrderPatameters o = dataSnapshot.getValue(OrderPatameters.class);
                     csno.setText(o.getUid());
                     if (o.getOdate() != null) {
-                        odate.setText(o.getOdate());
-                    }
-                    if (o.getDdate() != null) {
-                        ddate.setText(o.getDdate());
-                    }
-
+                        odate.setText(o.getOdate()); }
                     String name1 = o.getName();
                     String qnt1 = o.getQnt();
                     String size1 = o.getSize();
@@ -96,9 +91,6 @@ public class ViewmoreDetails extends FragmentActivity implements OnMapReadyCallb
                     nodelisttxt.setText(qntlist1.toString());
                     pricelisttxt.setText(amlist1.toString());
 
-                    if (o.getDid() != null) {
-                        getdeliverydetails(o.getDid());
-                    }
                     getaddressdetails(o.getUid(), o.getAddres());
                     getusername(o.getUid());
                 }
@@ -110,16 +102,14 @@ public class ViewmoreDetails extends FragmentActivity implements OnMapReadyCallb
             }
         });
 
-    }
-
-    void getdeliverydetails(String id) {
-        AppUtill.EMPURL.child(id).addValueEventListener(new ValueEventListener() {
+        AppUtill.DELIVERYURl.child(getIntent().getStringExtra("id")).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue() != null) {
-                    EmployeParameters e = dataSnapshot.getValue(EmployeParameters.class);
-                    dbname.setText(e.getEname());
-                    dbno.setText(e.getEusname());
+                if(dataSnapshot.getValue()!=null){
+                    DeliveryParameters d = dataSnapshot.getValue(DeliveryParameters.class);
+                    dbname.setText(d.getName());
+                    dbno.setText(d.getPhone());
+                    ddate.setText(d.getDdate());
                 }
             }
 
@@ -128,6 +118,22 @@ public class ViewmoreDetails extends FragmentActivity implements OnMapReadyCallb
 
             }
         });
+
+        AppUtill.BILLINGURl.child(getIntent().getStringExtra("id")).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue()!=null){
+                    BillingParameters b = dataSnapshot.getValue(BillingParameters.class);
+                    amount.setText(b.getTotal_amount());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     void getaddressdetails(String uid, String id) {

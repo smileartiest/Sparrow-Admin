@@ -19,13 +19,14 @@ import com.google.firebase.database.ValueEventListener;
 import com.smile.atozadmin.R;
 import com.smile.atozadmin.controller.AppUtill;
 import com.smile.atozadmin.controller.TimeDate;
+import com.smile.atozadmin.parameters.BillingParameters;
 
 import java.util.ArrayList;
 
 public class HomeFrag extends Fragment {
 
     View v;
-    TextView uscount,dresscount,marketcount,empcount,totalordercount,pendingordercount,completeordercount,todayordercount,newordercount,cancelordercount,totalearn,peningamount,todayearn;
+    TextView uscount,dresscount,marketcount,electroniccount,empcount,totalordercount,pendingordercount,completeordercount,todayordercount,newordercount,cancelordercount,totalearn,peningamount,todayearn;
 
     ArrayList<String> amountlistpending = new ArrayList<>();
     ArrayList<String> amountlistearn = new ArrayList<>();
@@ -53,6 +54,7 @@ public class HomeFrag extends Fragment {
         todayordercount = v.findViewById(R.id.home_ordertodaycount);
         newordercount = v.findViewById(R.id.home_ordernewcount);
         cancelordercount = v.findViewById(R.id.home_ordercancelcount);
+        electroniccount = v.findViewById(R.id.home_electroniccount);
 
         available = v.findViewById(R.id.home_available);
         unavailable = v.findViewById(R.id.home_unavailable);
@@ -209,6 +211,22 @@ public class HomeFrag extends Fragment {
             }
         });
 
+        AppUtill.ELECTRONICURL.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue()!=null){
+                    electroniccount.setText(String.valueOf(dataSnapshot.getChildrenCount()));
+                }else {
+                    electroniccount.setText("0");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         AppUtill.EMPURL.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -241,23 +259,24 @@ public class HomeFrag extends Fragment {
             }
         });
 
-        AppUtill.ORDERURl.addValueEventListener(new ValueEventListener() {
+        AppUtill.BILLINGURl.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
                     int i = 0;
                     for (DataSnapshot data : dataSnapshot.getChildren()) {
-                        if (data.child("ddate").getValue() != null) {
-                            if (data.child("ddate").getValue().toString().equals(new TimeDate(getContext()).getdate())) {
+                        BillingParameters b = data.getValue(BillingParameters.class);
+                        if (b.getDate() != null) {
+                            if (b.getDate().equals(new TimeDate(getContext()).getdate())) {
                                 i += 1;
-                                todayamountlistearn.add(data.child("bam").getValue().toString());
+                                todayamountlistearn.add(b.getTotal_amount());
                             }
                         }
-                        if(data.child("sts").getValue()!=null) {
-                            if (data.child("sts").getValue().toString().equals("pending")) {
-                                amountlistpending.add(data.child("bam").getValue().toString());
-                            } else if (data.child("sts").getValue().toString().equals("complete")) {
-                                amountlistearn.add(data.child("bam").getValue().toString());
+                        if(b.getSts()!=null) {
+                            if (b.getSts().equals("pending")) {
+                                amountlistpending.add(data.child("total_amount").getValue().toString());
+                            } else if (b.getSts().equals("complete")) {
+                                amountlistearn.add(data.child("total_amount").getValue().toString());
                             }
                         }
                     }

@@ -42,16 +42,18 @@ import java.util.ArrayList;
 
 public class AddMarketPage extends AppCompatActivity {
 
-    TextView nameupdate, typeupdate, categupdate, qntyupdate, priceupdate;
+    TextView nameupdate, typeupdate, categupdate, qntyupdate, priceupdate ,cat_update;
     TextInputLayout name, type, qnty, price;
-    Spinner categspin;
+    Spinner categspin, catspin;
     ImageView pic;
     Button addbtn;
-    ImageView instock,outstock;
+    ImageView instock, outstock;
     ConstraintLayout screen;
 
     String[] categlist = {"choose category", "Fruits & Vegetables", "Foodgrains , Oil & Masala", "Bakery , Cakes & Dairy", "Beverages",
             "Snaks & Branded Foods", "Beauty & Hygiene", "Cleaning & Household", "Eggs , Meat & Fish", "Baby Care & Personal Care"};
+
+    String[] catlist = {" - select type - ", "veg", "non_veg","market"};
 
     StorageReference sr, sr1;
 
@@ -67,6 +69,7 @@ public class AddMarketPage extends AppCompatActivity {
 
         name = findViewById(R.id.add_veg_name);
         categspin = findViewById(R.id.add_veg_category);
+        catspin = findViewById(R.id.add_veg_cat);
         type = findViewById(R.id.add_veg_type);
         qnty = findViewById(R.id.add_veg_qnt);
         price = findViewById(R.id.add_veg_price);
@@ -76,6 +79,7 @@ public class AddMarketPage extends AppCompatActivity {
         typeupdate = findViewById(R.id.add_veg_type_update);
         qntyupdate = findViewById(R.id.add_veg_qnt_update);
         priceupdate = findViewById(R.id.add_veg_price_update);
+        cat_update = findViewById(R.id.add_veg_cat_update);
 
         instock = findViewById(R.id.add_veg_instock);
         outstock = findViewById(R.id.add_veg_outstock);
@@ -84,6 +88,9 @@ public class AddMarketPage extends AppCompatActivity {
         addbtn = findViewById(R.id.add_veg_addbtn);
 
         screen = findViewById(R.id.add_veg_screen);
+
+        ArrayAdapter<String> ad1 = new ArrayAdapter<>(getApplicationContext(), R.layout.spinlist, catlist);
+        catspin.setAdapter(ad1);
 
         sr = FirebaseStorage.getInstance().getReference("market");
         temppicurl = new TempAddPic(AddMarketPage.this);
@@ -101,15 +108,15 @@ public class AddMarketPage extends AppCompatActivity {
             typeupdate.setVisibility(View.GONE);
             qntyupdate.setVisibility(View.GONE);
             priceupdate.setVisibility(View.GONE);
+            cat_update.setVisibility(View.GONE);
             instock.setVisibility(View.GONE);
             outstock.setVisibility(View.GONE);
             generatekey();
         } else {
-
             AppUtill.MARKETURL.child(getIntent().getStringExtra("id")).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if(dataSnapshot.getValue()!=null){
+                    if (dataSnapshot.getValue() != null) {
                         MarketParameters m = dataSnapshot.getValue(MarketParameters.class);
                         Glide.with(getApplicationContext()).load(m.getMpic()).into(pic);
                         name.getEditText().setText(m.getMname());
@@ -193,6 +200,13 @@ public class AddMarketPage extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        cat_update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppUtill.MARKETURL.child(getIntent().getStringExtra("id")).child("cat").setValue(catspin.getSelectedItem().toString());
+            }
+        });
+
         nameupdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -255,27 +269,33 @@ public class AddMarketPage extends AppCompatActivity {
                     String type1 = type.getEditText().getText().toString();
                     String am1 = price.getEditText().getText().toString();
                     String qnt1 = qnty.getEditText().getText().toString();
-                    if (name1.length() != 0) {
-                        if (type1.length() != 0) {
-                            if (am1.length() != 0) {
-                                if (qnt1.length() != 0) {
-                                    DatabaseReference df = AppUtill.MARKETURL;
-                                    MarketParameters m = new MarketParameters(dbkey , temppicurl.getpicurl() , name1 , type1 ,categspin.getSelectedItem().toString() ,qnt1 ,am1,"instock"  );
-                                    df.child(dbkey).setValue(m);
-                                    Snackbar snackbar = Snackbar.make(screen, "add succesfull", Snackbar.LENGTH_SHORT);
-                                    snackbar.show();
-                                    temppicurl.clearpic();
+
+                    if (catspin.getSelectedItem().toString().equals("veg") || catspin.getSelectedItem().toString().equals("non_veg")) {
+                        if (name1.length() != 0) {
+                            if (type1.length() != 0) {
+                                if (am1.length() != 0) {
+                                    if (qnt1.length() != 0) {
+                                        DatabaseReference df = AppUtill.MARKETURL;
+                                        MarketParameters m = new MarketParameters(dbkey, temppicurl.getpicurl(), name1, type1, categspin.getSelectedItem().toString(), catspin.getSelectedItem().toString() , qnt1, am1, "instock");
+                                        df.child(dbkey).setValue(m);
+                                        Snackbar snackbar = Snackbar.make(screen, "add succesfull", Snackbar.LENGTH_SHORT);
+                                        snackbar.show();
+                                        temppicurl.clearpic();
+                                    } else {
+                                        qnty.getEditText().setError("enter valid quendity");
+                                    }
                                 } else {
-                                    qnty.getEditText().setError("enter valid quendity");
+                                    price.getEditText().setError("enter valid amount");
                                 }
                             } else {
-                                price.getEditText().setError("enter valid amount");
+                                type.getEditText().setError("enter valid type");
                             }
                         } else {
-                            type.getEditText().setError("enter valid type");
+                            name.getEditText().setError("enter valid name");
                         }
                     } else {
-                        name.getEditText().setError("enter valid name");
+                        catspin.findFocus();
+                        Toast.makeText(AddMarketPage.this, "choose category first", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

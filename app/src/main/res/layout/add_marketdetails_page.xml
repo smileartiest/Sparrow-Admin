@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
@@ -27,11 +30,10 @@
     <ImageView
         android:id="@+id/add_veg_pic"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="300dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/add_veg_name"
         app:layout_constraintEnd_toStartOf="@+id/add_veg_instock"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView28" />
@@ -41,11 +43,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toStartOf="@+id/add_veg_name_update"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_veg_pic">
+        app:layout_constraintTop_toBottomOf="@+id/add_veg_cat">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -59,7 +61,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toStartOf="@+id/add_veg_type_update"
         app:layout_constraintStart_toStartOf="parent"
@@ -95,7 +97,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/add_veg_addbtn"
         app:layout_constraintEnd_toStartOf="@+id/add_veg_price_update"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_veg_qnt">
@@ -130,7 +131,7 @@
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toStartOf="@+id/add_veg_category_update"
         app:layout_constraintStart_toStartOf="parent"
@@ -140,26 +141,28 @@
         android:id="@+id/add_veg_name_update"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/bordergold"
+        android:background="@color/colorPrimaryDark"
         android:fontFamily="serif"
         android:padding="10dp"
         android:text="Update"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_veg_pic" />
+        app:layout_constraintTop_toBottomOf="@+id/add_veg_cat" />
 
     <TextView
         android:id="@+id/add_veg_category_update"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
+        android:background="@color/colorPrimaryDark"
         android:fontFamily="serif"
         android:padding="10dp"
-        android:textColor="@color/colorPrimaryDark"
-        android:background="@drawable/bordergold"
         android:text="Update"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_veg_name" />
 
@@ -167,13 +170,13 @@
         android:id="@+id/add_veg_type_update"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/bordergold"
+        android:background="@color/colorPrimaryDark"
         android:fontFamily="serif"
         android:padding="10dp"
         android:text="Update"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_veg_category" />
 
@@ -182,11 +185,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
+        android:background="@color/colorPrimaryDark"
         android:fontFamily="serif"
         android:padding="10dp"
-        android:background="@drawable/bordergold"
-        android:textColor="@color/colorPrimaryDark"
         android:text="Update"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_veg_type" />
 
@@ -195,11 +198,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
+        android:background="@color/colorPrimaryDark"
         android:fontFamily="serif"
         android:padding="10dp"
-        android:textColor="@color/colorPrimaryDark"
-        android:background="@drawable/bordergold"
         android:text="Update"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_veg_qnt" />
 
@@ -223,4 +226,30 @@
         app:layout_constraintTop_toBottomOf="@+id/add_veg_instock"
         app:srcCompat="@drawable/outstock_icon" />
 
+    <Spinner
+        android:id="@+id/add_veg_cat"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/add_veg_cat_update"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_veg_pic" />
+
+    <TextView
+        android:id="@+id/add_veg_cat_update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:background="@color/colorPrimaryDark"
+        android:fontFamily="serif"
+        android:text="update"
+        android:padding="10dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/add_veg_cat" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

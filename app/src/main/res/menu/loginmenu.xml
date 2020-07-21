@@ -8,6 +8,14 @@
         android:id="@+id/menu_location"/>
 
     <item
+        android:id="@+id/menu_billing"
+        android:title="Billing Details"/>
+
+    <item
+        android:title="User Details"
+        android:id="@+id/menu_users"/>
+
+    <item
         android:icon="@drawable/notification_icon"
         app:showAsAction="always"
         android:title="Notification"

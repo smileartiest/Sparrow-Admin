@@ -10,11 +10,16 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.smile.atozadmin.R;
 
 import com.smile.atozadmin.ViewmoreDetails;
 import com.smile.atozadmin.controller.AppUtill;
+import com.smile.atozadmin.controller.SendSMS;
 import com.smile.atozadmin.controller.TimeDate;
+import com.smile.atozadmin.parameters.BillingParameters;
 import com.smile.atozadmin.retrofit.ApiUtil;
 
 import retrofit2.Call;
@@ -27,9 +32,9 @@ public class OrderHold extends RecyclerView.ViewHolder {
         super(itemView);
     }
 
-    public void setdetails(final Context c1, final String id1, final String uid1, String name1, String size1, String qnt1, String am1, String bam1, String addres1, String pmode1, String sts1) {
+    public void setdetails(final Context c1, final String id1, final String uid1, String name1, String size1, String qnt1, String am1, String addres1, String pmode1, String sts1) {
         TextView oid = itemView.findViewById(R.id.order_row_oid);
-        TextView amount = itemView.findViewById(R.id.order_row_bam);
+        final TextView amount = itemView.findViewById(R.id.order_row_bam);
         TextView servlist = itemView.findViewById(R.id.order_row_servlist);
         TextView amlist = itemView.findViewById(R.id.order_row_amlist);
         TextView osts = itemView.findViewById(R.id.order_row_osts);
@@ -51,9 +56,23 @@ public class OrderHold extends RecyclerView.ViewHolder {
         servlist.setText(servlist1.toString());
         amlist.setText(amlist1.toString());
 
-        amount.setText(bam1);
         osts.setText(sts1);
         oid.setText(id1);
+
+        AppUtill.BILLINGURl.child(id1).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue()!=null){
+                    BillingParameters b = dataSnapshot.getValue(BillingParameters.class);
+                    amount.setText(b.getTotal_amount());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         if (sts1.equals("taken") || sts1.equals("pending") || sts1.equals("cancel") || sts1.equals("complete")) {
             takeorder.setText("VIEW MORE");
@@ -77,10 +96,12 @@ public class OrderHold extends RecyclerView.ViewHolder {
                 if (takeorder.getText().equals("VIEW MORE")) {
                     c1.startActivity(new Intent(c1 , ViewmoreDetails.class).putExtra("id",id1).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                 } else {
-                    TimeDate timeDate = new TimeDate(c1);
                     sendpushnotify(c1 , uid1 , "your order was taken by market. 30 minits to reach." );
                     AppUtill.ORDERURl.child(id1).child("sts").setValue("taken");
-                    AppUtill.ORDERURl.child(id1).child("pdate").setValue(timeDate.getdate());
+                    AppUtill.BILLINGURl.child(id1).child("sts").setValue("taken");
+                    if(uid1.length()==10){
+                        new SendSMS(c1 , uid1 , "Congratulation ! .Your User ID :"+uid1+" . Your Order was successfully taken by Marker. your Order id is ID : "+id1+" . Your bill amount is Rs."+amount.getText().toString()+"\n Sparrow Hyper Market , tenkasi.");
+                    }
                 }
             }
         });

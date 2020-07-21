@@ -55,7 +55,7 @@ public class MarketFrag extends Fragment {
         ) {
             @Override
             protected void populateViewHolder(MarketHold vh, MarketParameters vp, int i) {
-                vh.setdetails(getContext() , vp.getId() , vp.getMpic() , vp.getMname() , vp.getMtype() , vp.getMcatg() , vp.getMqnt() , vp.getMam() , vp.getStock());
+                vh.setdetails(getContext() , vp.getId() , vp.getMpic() , vp.getMname() , vp.getMtype() , vp.getCat() , vp.getMcatg() , vp.getMqnt() , vp.getMam() , vp.getStock());
             }
         };
         veglist.setAdapter(frecycle);

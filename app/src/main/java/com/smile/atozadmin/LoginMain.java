@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -153,6 +154,12 @@ public class LoginMain extends AppCompatActivity {
                 loadfrag(new OrderFrag());
                 getSupportActionBar().hide();
                 break;
+            case R.id.menu_billing:
+                startActivity(new Intent(getApplicationContext() , Billing_Details.class));
+                break;
+            case R.id.menu_users:
+                startActivity(new Intent(getApplicationContext() , User_Details.class));
+                break;
             case R.id.menu_exit:
                 finish();
             case R.id.menu_notification:
@@ -171,7 +178,7 @@ public class LoginMain extends AppCompatActivity {
         ad.setPositiveButton("yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                finish();
+                finishAffinity();
             }
         });
         ad.setNegativeButton("no", new DialogInterface.OnClickListener() {

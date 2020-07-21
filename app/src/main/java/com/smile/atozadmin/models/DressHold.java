@@ -20,7 +20,7 @@ public class DressHold extends RecyclerView.ViewHolder {
         super(itemView);
     }
 
-    public void setdetails(final Context c1, final String id1, final String name1, final String type1, final String am1, final String off1, final String pic1, String stock1) {
+    public void setdetails(final Context c1, final String id1, final String name1,final String cat1, final String type1, final String am1, final String off1, final String pic1, String stock1) {
 
         final ConstraintLayout card = itemView.findViewById(R.id.drow_card);
         ImageView pic = itemView.findViewById(R.id.drow_pic);
@@ -46,7 +46,7 @@ public class DressHold extends RecyclerView.ViewHolder {
         card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                c1.startActivity(new Intent(c1, DressFullDetails.class).putExtra("id", id1).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                c1.startActivity(new Intent(c1, DressFullDetails.class).putExtra("f",cat1).putExtra("id", id1).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             }
         });
 

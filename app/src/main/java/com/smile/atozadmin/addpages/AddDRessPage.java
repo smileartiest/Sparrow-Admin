@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -45,8 +46,10 @@ public class AddDRessPage extends AppCompatActivity {
     StorageReference sr, sr1;
     String dbkey;
     ConstraintLayout screen;
-    String[] categlist = {" - select - ", "Mens", "Womens", "Kids", "Bag"};
-    Spinner categspin;
+    String[] categlist1 = {" - select - ", "Mens", "Womens", "Kids", "Bag"};
+    String[] categlist2 = {" - select - ", "Mobiles", "Headset", "Speakers", "Charger" ,"Mobile Back Case" ,"Mens & Womens watch"};
+    String[] catlist = {" - select type - ","dress" ,"electronics"};
+    Spinner categspin,catspin;
     TempAddPic temppicurl;
 
     @Override
@@ -63,13 +66,14 @@ public class AddDRessPage extends AppCompatActivity {
         addbtn = findViewById(R.id.add_dress_addbtn);
         screen = findViewById(R.id.add_dress_screen);
         categspin = findViewById(R.id.add_dress_category);
+        catspin = findViewById(R.id.add_dress_cat);
         addimg1 = findViewById(R.id.add_dress_pic_1);
         addimg2 = findViewById(R.id.add_dress_pic_2);
 
         temppicurl = new TempAddPic(AddDRessPage.this);
 
-        ArrayAdapter<String> ad = new ArrayAdapter<>(getApplicationContext(), R.layout.spinlist, categlist);
-        categspin.setAdapter(ad);
+        ArrayAdapter<String> ad1 = new ArrayAdapter<>(getApplicationContext() , R.layout.spinlist , catlist);
+        catspin.setAdapter(ad1);
 
         sr = FirebaseStorage.getInstance().getReference("dresspic");
 
@@ -190,30 +194,66 @@ public class AddDRessPage extends AppCompatActivity {
                 String size1 = size.getEditText().getText().toString();
                 String am1 = amount.getEditText().getText().toString();
                 String off1 = offer.getEditText().getText().toString();
-                if (name1.length() != 0) {
-                    if (type1.length() != 0) {
-                        if (size1.length() != 0) {
-                            if (am1.length() != 0) {
-                                if (off1.length() != 0) {
-                                    DatabaseReference df = AppUtill.DRESSURL;
-                                    DressParameters d = new DressParameters(dbkey ,name1 ,type1 ,categspin.getSelectedItem().toString(),size.getEditText().getText().toString(),am1,off1 , temppicurl.getpicurl() , "instock" );
-                                    df.child(dbkey).setValue(d);
-                                    Snackbar snackbar = Snackbar.make(screen, "add succesfull", Snackbar.LENGTH_SHORT);
-                                    snackbar.show();
-                                    temppicurl.clearpic();
 
+                if(catspin.getSelectedItem().toString().equals("dress")) {
+                    if (name1.length() != 0) {
+                        if (type1.length() != 0) {
+                            if (size1.length() != 0) {
+                                if (am1.length() != 0) {
+                                    if (off1.length() != 0) {
+                                        DatabaseReference df = AppUtill.DRESSURL;
+                                        DressParameters d = new DressParameters(dbkey, name1, type1, categspin.getSelectedItem().toString(), catspin.getSelectedItem().toString() , size.getEditText().getText().toString(), am1, off1, temppicurl.getpicurl(), "instock");
+                                        df.child(dbkey).setValue(d);
+                                        Snackbar snackbar = Snackbar.make(screen, "add succesfull", Snackbar.LENGTH_SHORT);
+                                        snackbar.show();
+                                        temppicurl.clearpic();
+
+                                    } else {
+                                        offer.getEditText().setError("enter valid offer");
+                                    }
                                 } else {
-                                    offer.getEditText().setError("enter valid offer");
+                                    amount.getEditText().setError("enter valid amount");
                                 }
                             } else {
-                                amount.getEditText().setError("enter valid amount");
+                                size.getEditText().setError("enter valid size");
                             }
-                        }else { size.getEditText().setError("enter valid size"); }
+                        } else {
+                            type.getEditText().setError("enter valid type");
+                        }
                     } else {
-                        type.getEditText().setError("enter valid type");
+                        name.getEditText().setError("enter valid name");
                     }
-                } else {
-                    name.getEditText().setError("enter valid name");
+                }else if(catspin.getSelectedItem().toString().equals("electronics")){
+                    if (name1.length() != 0) {
+                        if (type1.length() != 0) {
+                            if (size1.length() != 0) {
+                                if (am1.length() != 0) {
+                                    if (off1.length() != 0) {
+                                        DatabaseReference df = AppUtill.ELECTRONICURL;
+                                        DressParameters d = new DressParameters(dbkey, name1, type1, categspin.getSelectedItem().toString(), catspin.getSelectedItem().toString() , size.getEditText().getText().toString(), am1, off1, temppicurl.getpicurl(), "instock");
+                                        df.child(dbkey).setValue(d);
+                                        Snackbar snackbar = Snackbar.make(screen, "add succesfull", Snackbar.LENGTH_SHORT);
+                                        snackbar.show();
+                                        temppicurl.clearpic();
+
+                                    } else {
+                                        offer.getEditText().setError("enter valid offer");
+                                    }
+                                } else {
+                                    amount.getEditText().setError("enter valid amount");
+                                }
+                            } else {
+                                size.getEditText().setError("enter valid size");
+                            }
+                        } else {
+                            type.getEditText().setError("enter valid type");
+                        }
+                    } else {
+                        name.getEditText().setError("enter valid name");
+                    }
+                }else{
+                    catspin.findFocus();
+                    Toast.makeText(AddDRessPage.this, "choose type first", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -245,6 +285,36 @@ public class AddDRessPage extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
                 startActivityForResult(intent, 1002);
+            }
+        });
+
+        catspin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(catlist[position].equals("dress")){
+                    name.setHint("Add Dress Name");
+                    type.setHint("Add Dress Type");
+                    size.setHint("Add size");
+                    amount.setHint("Add amount");
+                    offer.setHint("Add offer");
+
+                    ArrayAdapter<String> ad = new ArrayAdapter<>(getApplicationContext(), R.layout.spinlist, categlist1);
+                    categspin.setAdapter(ad);
+
+                }else if(catlist[position].equals("electronics")){
+                    name.setHint("Add Electronic Name");
+                    type.setHint("Add Electronic Type");
+                    size.setHint("Add colour");
+                    amount.setHint("Add amount");
+                    offer.setHint("Add offer");
+                    ArrayAdapter<String> ad = new ArrayAdapter<>(getApplicationContext(), R.layout.spinlist, categlist2);
+                    categspin.setAdapter(ad);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
 

@@ -16,6 +16,7 @@ import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -32,12 +33,14 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.smile.atozadmin.R;
 import com.smile.atozadmin.controller.AppUtill;
+import com.smile.atozadmin.parameters.DressParameters;
 
 public class DressFullDetails extends AppCompatActivity {
 
     ImageView pic,instock,outstock;
-    EditText name,type,price,offer;
-    Button nameupdate,typeupdate,priceupdate,offerupdate,delete;
+    EditText name,type,price,offer,size;
+    Button nameupdate,typeupdate,priceupdate,offerupdate,size_update,delete;
+    TextView name_title,type_title,prize_title,size_title;
     DatabaseReference df;
     StorageReference sr,sr1;
     Uri picurl;
@@ -54,6 +57,7 @@ public class DressFullDetails extends AppCompatActivity {
         type = findViewById(R.id.more_type);
         price = findViewById(R.id.more_price);
         offer = findViewById(R.id.more_offer);
+        size = findViewById(R.id.more_size);
 
         instock = findViewById(R.id.more_instock);
         outstock = findViewById(R.id.more_outstock);
@@ -62,13 +66,27 @@ public class DressFullDetails extends AppCompatActivity {
         typeupdate = findViewById(R.id.more_type_update);
         priceupdate = findViewById(R.id.more_price_update);
         offerupdate = findViewById(R.id.more_offer_update);
+        size_update = findViewById(R.id.more_size_update);
+
+        name_title = findViewById(R.id.more_name_title);
+        type_title = findViewById(R.id.more_type_title);
+        prize_title = findViewById(R.id.more_price_title);
+        size_title = findViewById(R.id.more_size_title);
 
         delete = findViewById(R.id.more_delete_icon);
 
         screen = findViewById(R.id.dress_full_screen);
 
         sr = FirebaseStorage.getInstance().getReference("dresspic");
-        df = AppUtill.DRESSURL.child(getIntent().getStringExtra("id"));
+        if(getIntent().getStringExtra("f").equals("dress")){
+            df = AppUtill.DRESSURL.child(getIntent().getStringExtra("id"));
+        }else{
+            df = AppUtill.ELECTRONICURL.child(getIntent().getStringExtra("id"));
+            name_title.setText("Brand Name");
+            type_title.setText("Type");
+            prize_title.setText("Mobile Price");
+            size_title.setText("Mobile Colour");
+        }
 
         pd = new ProgressDialog(DressFullDetails.this);
         pd.setTitle("Uploading");
@@ -78,11 +96,12 @@ public class DressFullDetails extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue()!=null){
-
-                    name.setText(dataSnapshot.child("dname").getValue().toString());
-                    type.setText(dataSnapshot.child("dtype").getValue().toString());
-                    price.setText(dataSnapshot.child("dam").getValue().toString());
-                    offer.setText(dataSnapshot.child("doff").getValue().toString());
+                    DressParameters d = dataSnapshot.getValue(DressParameters.class);
+                    name.setText(d.getDname());
+                    type.setText(d.getDtype());
+                    price.setText(d.getDam());
+                    offer.setText(d.getDoff());
+                    size.setText(d.getSize());
                     Glide.with(getApplicationContext()).load(dataSnapshot.child("dpic").getValue().toString()).into(pic);
 
                 }else {
@@ -155,6 +174,15 @@ public class DressFullDetails extends AppCompatActivity {
             public void onClick(View v) {
                 df.removeValue();
                 Snackbar snackbar = Snackbar.make(screen , "remove succesfull" , Snackbar.LENGTH_SHORT);
+                snackbar.show();
+            }
+        });
+
+        size_update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                df.child("size").setValue(size.getText().toString());
+                Snackbar snackbar = Snackbar.make(screen , "size add succesfull" , Snackbar.LENGTH_SHORT);
                 snackbar.show();
             }
         });

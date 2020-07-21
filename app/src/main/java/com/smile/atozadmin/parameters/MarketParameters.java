@@ -1,17 +1,18 @@
 package com.smile.atozadmin.parameters;
 
 public class MarketParameters {
-    String id,mpic,mname,mtype,mcatg,mqnt,mam,stock;
+    String id,mpic,mname,mtype,mcatg,cat,mqnt,mam,stock;
 
     public MarketParameters() {
     }
 
-    public MarketParameters(String id, String mpic, String mname, String mtype, String mcatg, String mqnt, String mam, String stock) {
+    public MarketParameters(String id, String mpic, String mname, String mtype, String mcatg, String cat , String mqnt, String mam, String stock) {
         this.id = id;
         this.mpic = mpic;
         this.mname = mname;
         this.mtype = mtype;
         this.mcatg = mcatg;
+        this.cat = cat;
         this.mqnt = mqnt;
         this.mam = mam;
         this.stock = stock;
@@ -63,6 +64,14 @@ public class MarketParameters {
 
     public void setMcatg(String mcatg) {
         this.mcatg = mcatg;
+    }
+
+    public String getCat() {
+        return cat;
+    }
+
+    public void setCat(String cat) {
+        this.cat = cat;
     }
 
     public String getMqnt() {

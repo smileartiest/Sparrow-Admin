@@ -24,7 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.smile.atozadmin.R;
 import com.smile.atozadmin.controller.AppUtill;
 import com.smile.atozadmin.models.OrderHold;
-import com.smile.atozadmin.parameters.OrderParameters;
+import com.smile.atozadmin.parameters.OrderPatameters;
 
 public class OrderFrag extends Fragment {
 
@@ -81,12 +81,12 @@ public class OrderFrag extends Fragment {
     public void viewdetails(String type) {
         Query q = AppUtill.ORDERURl.orderByChild("sts").equalTo(type);
         getcount(q);
-        FirebaseRecyclerAdapter<OrderParameters, OrderHold> frecycle = new FirebaseRecyclerAdapter<OrderParameters, OrderHold>(
-                OrderParameters.class, R.layout.row_order, OrderHold.class, q
+        FirebaseRecyclerAdapter<OrderPatameters, OrderHold> frecycle = new FirebaseRecyclerAdapter<OrderPatameters, OrderHold>(
+                OrderPatameters.class, R.layout.row_order, OrderHold.class, q
         ) {
             @Override
-            protected void populateViewHolder(OrderHold oh, OrderParameters op, int i) {
-                oh.setdetails(getContext(), op.getId(), op.getUid(), op.getName(), op.getSize(), op.getQnt(), op.getAm(), op.getBam(), op.getAddres(), op.getPmode(), op.getSts());
+            protected void populateViewHolder(OrderHold oh, OrderPatameters op, int i) {
+                oh.setdetails(getContext(), op.getId(), op.getUid(), op.getName(), op.getSize(), op.getQnt(), op.getAm(), op.getAddres(), op.getPmode(), op.getSts());
             }
         };
         list.setAdapter(frecycle);

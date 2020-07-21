@@ -18,5 +18,8 @@ public class AppUtill {
     public static DatabaseReference LOCURL = FirebaseDatabase.getInstance().getReference("locations");
     public static DatabaseReference STSURL = FirebaseDatabase.getInstance().getReference("storestatus");
     public static DatabaseReference NOTIFYURL = FirebaseDatabase.getInstance().getReference("notification");
+    public static DatabaseReference DELIVERYURl = FirebaseDatabase.getInstance().getReference("delivery");
+    public static DatabaseReference BILLINGURl = FirebaseDatabase.getInstance().getReference("billing");
+    public static DatabaseReference ELECTRONICURL = FirebaseDatabase.getInstance().getReference("electronics");
 
 }

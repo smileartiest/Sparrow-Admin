@@ -9,11 +9,11 @@
     <item
         android:id="@+id/nav_drees"
         android:icon="@drawable/dress_icon"
-        android:title="Dress"/>
+        android:title="Stock"/>
     <item
         android:id="@+id/nav_market"
         android:icon="@drawable/vegicon1"
-        android:title="Veg and Market's"/>
+        android:title="Veg Non Veg"/>
 
     <item
         android:id="@+id/nav_offer"

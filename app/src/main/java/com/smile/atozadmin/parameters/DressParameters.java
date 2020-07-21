@@ -2,16 +2,17 @@ package com.smile.atozadmin.parameters;
 
 public class DressParameters {
 
-    String id,dname,dtype,categ,size,dam,doff,dpic,stock;
+    String id,dname,dtype,categ,cat,size,dam,doff,dpic,stock;
 
     public DressParameters() {
     }
 
-    public DressParameters(String id, String dname, String dtype, String categ, String size, String dam, String doff, String dpic, String stock) {
+    public DressParameters(String id, String dname, String dtype, String categ,String cat , String size, String dam, String doff, String dpic, String stock) {
         this.id = id;
         this.dname = dname;
         this.dtype = dtype;
         this.categ = categ;
+        this.cat = cat;
         this.size = size;
         this.dam = dam;
         this.doff = doff;
@@ -41,6 +42,14 @@ public class DressParameters {
 
     public void setCateg(String categ) {
         this.categ = categ;
+    }
+
+    public String getCat() {
+        return cat;
+    }
+
+    public void setCat(String cat) {
+        this.cat = cat;
     }
 
     public String getId() {

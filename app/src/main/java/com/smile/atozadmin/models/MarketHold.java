@@ -20,12 +20,13 @@ public class MarketHold extends RecyclerView.ViewHolder {
         super(itemView);
     }
 
-    public void setdetails(final Context c1, final String id1, String mpic, String mname, String mtype, String mcatg, String mqnt, String mam, String stock1) {
+    public void setdetails(final Context c1, final String id1, String mpic, String mname, String mtype, String cat1 , String mcatg, String mqnt, String mam, String stock1) {
         ImageView pic = itemView.findViewById(R.id.mrow_pic);
         TextView name = itemView.findViewById(R.id.mrow_name);
         TextView type = itemView.findViewById(R.id.mrow_type);
         TextView qnty = itemView.findViewById(R.id.mrow_qnt);
         TextView amount = itemView.findViewById(R.id.mrow_price);
+        ImageView indication_icon = itemView.findViewById(R.id.more_icon);
 
         ConstraintLayout card = itemView.findViewById(R.id.mrow_card);
 
@@ -43,6 +44,14 @@ public class MarketHold extends RecyclerView.ViewHolder {
                 qnty.setText(mqnt);
                 amount.setText("Out Of Stock");
             }
+        }
+
+        if(cat1.equals("veg")){
+            indication_icon.setImageResource(R.drawable.green_dot);
+        }else if(cat1.equals("non_veg")){
+            indication_icon.setImageResource(R.drawable.red_dot);
+        }else if(cat1.equals("market")){
+            indication_icon.setImageResource(R.drawable.market_dot);
         }
 
         card.setOnClickListener(new View.OnClickListener() {
